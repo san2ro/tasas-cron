@@ -1,0 +1,31 @@
+name: Actualizar datos de tasas cada 6 horas
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Se ejecuta cada 6 horas (ej: 00:00, 06:00, 12:00, 18:00 UTC)
+  workflow_dispatch:  # Permite ejecución manual
+
+jobs:
+  fetch-and-save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Obtener datos de la API
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}  # Guarda tu token en Secrets (paso 3)
+        run: |
+          curl -s -X 'GET' \
+            'https://tasas.eltoque.com/v1/trmi' \
+            -H 'accept: */*' \
+            -H "Authorization: Bearer $API_TOKEN" \
+            > data.json
+
+      - name: Subir cambios al repositorio
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add data.json
+          git commit -m "Actualización automática: $(date -u)"
+          git push
