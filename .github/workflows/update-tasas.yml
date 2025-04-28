@@ -1,4 +1,4 @@
-name: Actualizar datos de tasas cada 6 horas
+name: Actualizar datos de tasas
 
 on:
   schedule:
