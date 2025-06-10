@@ -2,7 +2,7 @@ name: Actualizar datos de tasas
 
 on:
   schedule:
-    - cron: '0 */12 * * *'  # Se ejecuta cada 6 horas (ej: 00:00, 06:00, 12:00, 18:00 UTC)
+    - cron: '0 */12 * * *'  # Se ejecuta cada 12 horas (ej: 00:00, 06:00, 12:00, 18:00 UTC)
   workflow_dispatch:  # Permite ejecución manual
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
 
       - name: Obtener datos de la API
         env:
-          API_TOKEN: ${{ secrets.API_TOKEN }}  # Guarda tu token en Secrets (paso 3)
+          API_TOKEN: ${{ secrets.API_TOKEN }}  # Guarda tu token en Secrets.
         run: |
           curl -s -X 'GET' \
             'https://tasas.eltoque.com/v1/trmi' \
